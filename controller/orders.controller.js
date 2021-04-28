@@ -4,17 +4,22 @@ let servicePool= require('../dbconnection/servicePool');
 let businessPool= require('../dbconnection/businessPool');
 let userSql = require('../db/user.query');
 
+
+// request more than one product (array of products list)
 exports.requestProduct = async (req, res) =>{
    try {
         var { userId } = req.user;
-        var { product_id, product_price } = req.body;
-        // get user balance
-        let balance = await businessPool(req, res, userSql.getUserBalanceBasedId, [userId]);
-        // make order with the requested product
-        var order = await businessPool(req, res, sql.insertANewProduct, [product_id, userId]);
-        // deducte product price from user balance
-        let balanceAfterRequest = userBalanceAfterRequest(product_price, balance.rows[0].user_balance);
-        await servicePool(req, res, userSql.updateUserBalance, [ balanceAfterRequest, userId])  
+        var products = req.body;
+        for(let i = 0; i < products.length; i++){
+                  // get user balance
+            let balance = await businessPool(req, res, userSql.getUserBalanceBasedId, [userId]);
+            // make order with the requested product
+            var order = await businessPool(req, res, sql.insertANewProduct, [products[i].product_id, userId]);
+            // deducte product price from user balance
+            let balanceAfterRequest = userBalanceAfterRequest(products[i].product_price, balance.rows[0].user_balance);
+            await businessPool(req, res, userSql.updateUserBalance, [ balanceAfterRequest, userId])  
+        }
+        res.status(200).json({status: 200, message: "successful purchasing"})
    } catch (error) {
         // cancel order
        await businessPool(req, res, sql.deleteRequestedOrder, [order.insertId]);
@@ -25,6 +30,8 @@ exports.requestProduct = async (req, res) =>{
        })
    } 
 }
+
+
 
 exports.cancelRequest = async(req, res) =>{
   try {

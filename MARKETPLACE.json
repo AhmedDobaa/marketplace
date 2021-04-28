@@ -194,7 +194,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"product_id\": 7,\r\n    \"product_price\": 5000\r\n}",
+							"raw": "[\r\n {\r\n    \"product_id\": 7,\r\n    \"product_price\": 5000\r\n },\r\n {\r\n    \"product_id\": 8,\r\n    \"product_price\": 6000\r\n }\r\n]\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
