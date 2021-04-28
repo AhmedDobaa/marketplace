@@ -1,0 +1,58 @@
+{
+    "swagger": "2.0",
+    "info":{
+        "description": "Marketplace document",
+        "version": "1.0.0",
+        "title": "Marketplace",
+        "license":{
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+        "host": "localhost:3000",
+        "basePath": "",
+        "tags": [
+            {
+                "name": "Marketplace",
+                "description": "APIs"
+            }
+        ],
+        "schemes": [
+            "http"
+        ],
+        "consumes": [
+            "application/json"
+        ],
+        "producers": [
+            "application/json"
+        ],
+        "paths": {
+           "/users/login": {
+               "get": {
+                   "description": "login",
+                   "produces": [
+                       "application/json"
+                   ],
+                   "responses": {
+                       "200": {
+                           "description": "token and some user data",
+                           "schema": {
+                               "type": "array",
+                               "items": {
+                                   "$ref": "#/definitions/users/login"
+                               }
+                           }
+                       }
+                   }
+               }
+           }
+        },
+        "definitions": {
+           "note":{
+
+           },
+           "notes": {
+            "$ref": "#/definitions/note"
+           }
+        }
+}
